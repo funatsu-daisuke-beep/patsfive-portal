@@ -663,39 +663,27 @@
     const tid = setTimeout(() => controller.abort(), 1500);
     fetch('http://localhost:8080' + endpoint, { signal: controller.signal })
       .then(() => clearTimeout(tid))
-      .catch(() => { clearTimeout(tid); showPathModal(path); });
+      .catch(() => { clearTimeout(tid); showInfoModal(); });
   }
 
-  function showPathModal(path) {
+  function showInfoModal() {
     const modal = document.createElement('div');
-    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
     const box = document.createElement('div');
-    box.style.cssText = 'background:#E8E8E8;border-radius:18px;padding:24px;max-width:480px;width:100%;box-shadow:8px 8px 20px #D0D0D0,-8px -8px 20px #FFF';
-    const title = document.createElement('div');
-    title.style.cssText = 'font-size:14px;font-weight:700;color:#444;margin-bottom:8px';
-    title.textContent = '📁 社内ネットワークフォルダ';
-    const desc = document.createElement('div');
-    desc.style.cssText = 'font-size:11px;color:#888;margin-bottom:12px;line-height:1.5';
-    desc.textContent = '社内ネットワーク外からはフォルダを直接開けません。このパスをエクスプローラーのアドレスバーに貼り付けてください。';
-    const pathBox = document.createElement('div');
-    pathBox.style.cssText = 'background:#FFF;border-radius:10px;padding:10px 14px;font-size:12px;font-family:monospace;color:#444;word-break:break-all;margin-bottom:12px;box-shadow:inset 3px 3px 7px #D0D0D0,inset -3px -3px 7px #FFF';
-    pathBox.textContent = path;
-    const btnRow = document.createElement('div');
-    btnRow.style.cssText = 'display:flex;gap:8px;justify-content:flex-end';
-    const copyBtn = document.createElement('button');
-    copyBtn.style.cssText = 'padding:8px 16px;background:#FF6B00;color:#fff;border:none;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer';
-    copyBtn.textContent = '📋 コピー';
-    copyBtn.onclick = () => navigator.clipboard.writeText(path).then(() => { copyBtn.textContent = '✓ コピー済み'; });
+    box.style.cssText = 'background:#E8E8E8;border-radius:18px;padding:28px 32px;max-width:340px;width:100%;box-shadow:8px 8px 20px #D0D0D0,-8px -8px 20px #FFF;text-align:center';
+    const msg1 = document.createElement('div');
+    msg1.style.cssText = 'font-size:13px;font-weight:600;color:#444;margin-bottom:10px;line-height:1.6';
+    msg1.textContent = '社外ネットワークの場合はVPN接続が必要です。';
+    const msg2 = document.createElement('div');
+    msg2.style.cssText = 'font-size:12px;color:#888;margin-bottom:20px';
+    msg2.textContent = 'エクセルの起動は数秒かかります。';
     const closeBtn = document.createElement('button');
-    closeBtn.style.cssText = 'padding:8px 16px;background:#E8E8E8;box-shadow:3px 3px 8px #D0D0D0,-3px -3px 8px #FFF;color:#888;border:none;border-radius:20px;font-size:12px;cursor:pointer';
+    closeBtn.style.cssText = 'padding:8px 28px;background:#E8E8E8;box-shadow:3px 3px 8px #D0D0D0,-3px -3px 8px #FFF;color:#666;border:none;border-radius:20px;font-size:12px;cursor:pointer';
     closeBtn.textContent = '閉じる';
     closeBtn.onclick = () => modal.remove();
-    btnRow.appendChild(copyBtn);
-    btnRow.appendChild(closeBtn);
-    box.appendChild(title);
-    box.appendChild(desc);
-    box.appendChild(pathBox);
-    box.appendChild(btnRow);
+    box.appendChild(msg1);
+    box.appendChild(msg2);
+    box.appendChild(closeBtn);
     modal.appendChild(box);
     document.body.appendChild(modal);
     modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
