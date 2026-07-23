@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATSFIVE ポータルサイト</title>
+  <link rel="icon" href="patsfive.ico" type="image/x-icon">
+  <style>
+    :root {
+      --bg: #E8E8E8;
+      --sh-dark: #D0D0D0;
+      --sh-light: #FFFFFF;
+      --primary: #FF6B00;
+      --primary-dark: #E05500;
+      --text: #444444;
+      --text-sub: #888888;
+      --radius: 18px;
+      --raised: 6px 6px 14px var(--sh-dark), -6px -6px 14px var(--sh-light);
+      --raised-sm: 3px 3px 8px var(--sh-dark), -3px -3px 8px var(--sh-light);
+      --inset: inset 3px 3px 7px var(--sh-dark), inset -3px -3px 7px var(--sh-light);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: var(--bg);
+      box-shadow: 0 4px 12px var(--sh-dark), 0 -1px 0 var(--sh-light);
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    header img {
+      width: 40px; height: 40px;
+      object-fit: contain;
+      border-radius: 50%;
+      box-shadow: var(--raised-sm);
+      padding: 3px;
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: .02em;
+    }
+
+    header p {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-top: 1px;
+    }
+
+    .header-right {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-official {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      background: var(--bg);
+      box-shadow: var(--raised-sm);
+      border-radius: 20px;
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: box-shadow .15s;
+    }
+
+    .btn-official:hover {
+      box-shadow: var(--inset);
+    }
+
+    /* ===== STATS BAR ===== */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px 24px 0;
+    }
+
+    .stat-tile {
+      background: var(--bg);
+      box-shadow: var(--raised);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+    }
+
+    .stat-tile:not(.dashboard-tile) {
+      border-top: 3px solid var(--primary);
+      padding-top: 14px;
+    }
+
+    .stat-tile:not(.dashboard-tile) .stat-label::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--primary);
+      border-radius: 50%;
+      margin-right: 5px;
+      vertical-align: middle;
+      box-shadow: 0 0 4px rgba(255,107,0,.5);
+    }
+
+    .stat-tile .stat-label {
+      font-size: 10px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 6px;
+    }
+
+    .stat-tile .stat-value {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+    }
+
+    .stat-tile .stat-value span.stat-unit {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-sub);
+      margin-left: 3px;
+    }
+
+    .stat-tile .stat-sub {
+      font-size: 10px;
+      color: var(--text-sub);
+      margin-top: 6px;
+    }
+
+    .stat-tile.dashboard-tile {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .stat-tile.dashboard-tile .stat-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .stat-tile.dashboard-tile .stat-desc {
+      font-size: 10px;
+      color: var(--text-sub);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .stat-tile.dashboard-tile .btn-dashboard {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 20px;
+      background: var(--primary);
+      box-shadow: 3px 3px 8px var(--sh-dark), -1px -1px 4px var(--sh-light);
+      border-radius: 20px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: box-shadow .15s;
+    }
+
+    .stat-tile.dashboard-tile .btn-dashboard:hover {
+      box-shadow: 1px 1px 4px var(--sh-dark), inset 1px 1px 3px rgba(0,0,0,.15);
+    }
+
+    .vmv-row {
+      padding: 20px 24px 0;
+    }
+
+    .vmv-card {
+      background: var(--bg);
+      box-shadow: var(--raised);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border-top: 3px solid var(--primary);
+      display: flex;
+      flex-direction: row;
+    }
+
+    .vmv-tile {
+      flex: 1;
+      padding: 14px 20px;
+    }
+
+    .vmv-separator {
+      width: 1px;
+      background: var(--sh-dark);
+      margin: 12px 0;
+      flex-shrink: 0;
+    }
+
+    .vmv-label {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--primary);
+      letter-spacing: .10em;
+      line-height: 1;
+    }
+
+    .vmv-sub {
+      font-size: 8.5px;
+      color: var(--text-sub);
+      letter-spacing: .03em;
+      margin: 4px 0 8px;
+    }
+
+    .vmv-divider {
+      width: 20px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+      margin-bottom: 8px;
+      box-shadow: 1px 1px 2px var(--sh-dark), -1px -1px 2px var(--sh-light);
+    }
+
+    .vmv-body {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .vmv-body li {
+      list-style: none;
+      padding-left: 10px;
+      position: relative;
+    }
+
+    .vmv-body li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-size: 10px;
+    }
+
+
+    /* ===== MAIN GRID ===== */
+    main {
+      padding: 20px 24px 48px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: var(--bg);
+      box-shadow: var(--raised);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: box-shadow .2s;
+    }
+
+    .card:hover {
+      box-shadow: 8px 8px 18px var(--sh-dark), -8px -8px 18px var(--sh-light);
+    }
+
+    .card-header {
+      padding: 13px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--primary);
+      border-bottom: 2px solid var(--sh-dark);
+    }
+
+    .card-header .icon { font-size: 17px; }
+
+    .card-header .icon-b {
+      width: 24px; height: 24px;
+      border-radius: 5px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 2px 2px 5px var(--sh-dark), -1px -1px 3px var(--sh-light);
+    }
+
+    .card-body { padding: 2px 0; }
+
+    /* ===== LIST ITEMS ===== */
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 18px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 13px;
+      border-bottom: 1px solid var(--sh-dark);
+      transition: background .12s;
+    }
+
+    .link-item:last-child { border-bottom: none; }
+
+    .link-item:hover {
+      background: rgba(255,107,0,.05);
+    }
+
+    .link-item .link-icon {
+      font-size: 15px;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+      opacity: .75;
+    }
+
+    .link-item .link-text { flex: 1; }
+
+    .link-item .link-text > div:first-child {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .link-item .link-desc {
+      font-size: 10px;
+      color: var(--text-sub);
+      margin-top: 1px;
+    }
+
+    .link-item .badge {
+      font-size: 9px;
+      padding: 3px 8px;
+      border-radius: 8px;
+      background: var(--bg);
+      box-shadow: var(--inset);
+      color: var(--primary);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .link-item.excel { background: rgba(34,160,70,.04); }
+    .link-item.excel:hover { background: rgba(34,160,70,.08); }
+    .link-item.excel .link-text > div:first-child { color: #1a7a3a; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 10px;
+      color: var(--text-sub);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="patsfive.ico" alt="PATSFIVE">
+  <div>
+    <h1>PATSFIVE ポータルサイト</h1>
+    <p>パッツファイブ ／ よく使うリンクをまとめています</p>
+  </div>
+  <div class="header-right">
+    <a class="btn-official" href="https://patsfive.com/" target="_blank">🌐 公式サイト</a>
+    <a class="btn-official" href="https://docs.google.com/spreadsheets/d/1_rJuVUcoesMSda6PI_VulQjAEeHqck0X6x4-ixKDxqg/edit?gid=0#gid=0" target="_blank">📅 チームスケジュール</a>
+    <a class="btn-official" href="openexp://192.168.10.205/disk1">📁 PATS共有フォルダ</a>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-tile">
+    <div class="stat-label">消化試合</div>
+    <div class="stat-value"><span id="stat-played">0</span><span class="stat-unit">/ <span id="stat-total-games">--</span>試合</span></div>
+    <div class="stat-sub" id="stat-total-target">シーズン目標合計 読込中...</div>
+  </div>
+  <div class="stat-tile">
+    <div class="stat-label">実績累計 vs 目標累計（消化分）</div>
+    <div class="stat-value"><span id="stat-actual-sum">--</span><span class="stat-unit">人</span></div>
+    <div class="stat-sub" id="stat-actual-detail">実績入力後に表示</div>
+  </div>
+  <div class="stat-tile">
+    <div class="stat-label">平均来場者数（リーグ基準 1,500人）</div>
+    <div class="stat-value"><span id="stat-avg">--</span><span class="stat-unit" id="stat-avg-unit">人</span></div>
+    <div class="stat-sub" id="stat-avg-note">実績入力後に表示</div>
+  </div>
+  <div class="stat-tile dashboard-tile">
+    <div class="stat-title">📊 集客ダッシュボード 2026-27</div>
+    <div class="stat-desc">全ホーム戦の目標・予測・実績・GAPを可視化<br>／実績入力もここから</div>
+    <a class="btn-dashboard" href="https://funatsu-daisuke-beep.github.io/patsfive-dashboard/" target="_blank">開く　WEB</a>
+  </div>
+</div>
+
+
+<main id="main">
+
+  <!-- スポンサー営業関連 -->
+  <div class="card" data-category="スポンサー営業関連">
+    <div class="card-header">
+      <span class="icon">🏀</span> スポンサー営業関連
+    </div>
+    <div class="card-body">
+      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\26-27シーズン\営業資料">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>営業資料フォルダ</div>
+          <div class="link-desc">NAS ／ 26-27シーズン 営業資料</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\26-27シーズン\往訪提案">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>往訪提案書フォルダ</div>
+          <div class="link-desc">NAS ／ 26-27シーズン 往訪提案</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\●見積書">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>見積書フォルダ</div>
+          <div class="link-desc">NAS ／ 見積書保管場所</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\26-27シーズン\活動報告">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>活動報告フォルダ</div>
+          <div class="link-desc">NAS ／ 26-27シーズン 活動報告</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+      <a class="link-item excel" href="openxl://192.168.10.205/disk1/営業共有/営業管理シート.xlsx">
+        <span class="link-icon">📊</span>
+        <div class="link-text">
+          <div>営業管理シート</div>
+          <div class="link-desc">NAS ／ スポンサー営業管理</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 集客関連 -->
+  <div class="card" data-category="集客関連">
+    <div class="card-header">
+      <span class="icon">👥</span> 集客関連
+    </div>
+    <div class="card-body">
+      <a class="link-item" href="openexp://192.168.10.205/disk1/集客">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>集客フォルダ</div>
+          <div class="link-desc">NAS ／ 集客</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+      <a class="link-item" href="openexp://192.168.10.205/disk1/集客/提案資料">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>企業提案資料フォルダ</div>
+          <div class="link-desc">NAS ／ 集客 ／ 提案資料</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 広報関連 -->
+  <div class="card" data-category="広報関連">
+    <div class="card-header">
+      <span class="icon">📣</span> 広報関連
+    </div>
+    <div class="card-body">
+      <a class="link-item" href="openexp://192.168.10.205/disk1/広報">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>広報フォルダ</div>
+          <div class="link-desc">NAS ／ 広報</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 運営・興行関連 -->
+  <div class="card" data-category="運営・興行関連">
+    <div class="card-header">
+      <span class="icon">🎪</span> 運営・興行関連
+    </div>
+    <div class="card-body">
+      <a class="link-item" href="openexp://192.168.10.205/disk1/興行">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>興行フォルダ</div>
+          <div class="link-desc">NAS ／ 興行</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+      <a class="link-item" href="openexp://192.168.10.205/disk1/運営・興行/運営パートナーシップ">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>運営パートナーシップフォルダ</div>
+          <div class="link-desc">NAS ／ 運営・興行 ／ 運営パートナーシップ</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 行政関連 -->
+  <div class="card" data-category="行政関連">
+    <div class="card-header">
+      <span class="icon">🏛</span> 行政関連
+    </div>
+    <div class="card-body">
+      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\26-27シーズン\行政資料">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>行政資料フォルダ</div>
+          <div class="link-desc">NAS ／ 26-27シーズン 行政資料</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+      <a class="link-item excel" href="openxl://192.168.10.205/disk1/営業共有/行政面談管理シート.xlsx">
+        <span class="link-icon">📊</span>
+        <div class="link-text">
+          <div>行政面談管理シート</div>
+          <div class="link-desc">NAS ／ 行政面談管理</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+    </div>
+  </div>
+
+
+  <!-- Bリーグ関連 -->
+  <div class="card" data-category="Bリーグ関連">
+    <div class="card-header">
+      <span class="icon-b">B</span> Bリーグ関連
+    </div>
+    <div class="card-body">
+      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\26-27シーズン\広告ガイドライン">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>広告ガイドラインフォルダ</div>
+          <div class="link-desc">NAS ／ 26-27シーズン 広告ガイドライン</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\各クラブセールスシート　25-26シーズン">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>他クラブセールスシートフォルダ</div>
+          <div class="link-desc">NAS ／ 各クラブセールスシート 25-26シーズン</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- バスケットLIVE関連 -->
+  <div class="card" data-category="バスケットLIVE">
+    <div class="card-header">
+      <span class="icon">📺</span> バスケットLIVE関連
+    </div>
+    <div class="card-body">
+      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\バスケットLIVE">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div>バスケットLIVEフォルダ</div>
+          <div class="link-desc">NAS ／ 営業共有 バスケットLIVE</div>
+        </div>
+        <span class="badge">NAS</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+
+<footer>
+  PATSFIVE PORTAL ／ パッツファイブ
+</footer>
+
+<script src="shukyaku_data.js"></script>
+<script>
+  function initStatsBar() {
+    if (!window.SHUKYAKU_DATA) return;
+    const games = window.SHUKYAKU_DATA.games;
+    const totalGames = games.length;
+    const totalTarget = games.reduce((s, g) => s + (g.target || 0), 0);
+    const played = games.filter(g => g.actual !== null && g.actual !== undefined);
+    const playedCount = played.length;
+    const actualSum = played.reduce((s, g) => s + g.actual, 0);
+    const targetSum = played.reduce((s, g) => s + (g.target || 0), 0);
+
+    document.getElementById('stat-played').textContent = playedCount;
+    document.getElementById('stat-total-games').textContent = totalGames;
+    document.getElementById('stat-total-target').textContent = 'シーズン目標合計 ' + totalTarget.toLocaleString() + '人';
+
+    if (playedCount > 0) {
+      const rate = targetSum > 0 ? Math.round(actualSum / targetSum * 100) : 0;
+      const avg = Math.round(actualSum / playedCount);
+      document.getElementById('stat-actual-sum').textContent = actualSum.toLocaleString();
+      document.getElementById('stat-actual-detail').textContent =
+        '実績 ' + actualSum.toLocaleString() + ' ／ 目標 ' + targetSum.toLocaleString() + '（達成率 ' + rate + '%）';
+      document.getElementById('stat-avg').textContent = avg.toLocaleString();
+      document.getElementById('stat-avg-note').textContent =
+        avg >= 1500 ? 'リーグ基準達成中' : 'リーグ基準まであと ' + (1500 - avg).toLocaleString() + '人';
+    }
+  }
+  initStatsBar();
+
+  document.addEventListener('click', function(e) {
+    const a = e.target.closest('a');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (!href) return;
+    if (href.startsWith('openexp://')) {
+      e.preventDefault();
+      const path = '\\\\' + href.replace('openexp://', '').replace(/\//g, '\\');
+      tryOpenLocal('/open-folder?path=' + encodeURIComponent(path), path);
+    } else if (href.startsWith('openxl://')) {
+      e.preventDefault();
+      const path = '\\\\' + href.replace('openxl://', '').replace(/\//g, '\\');
+      tryOpenLocal('/open-excel?path=' + encodeURIComponent(path), path);
+    }
+  });
+
+  function tryOpenLocal(endpoint, path) {
+    const controller = new AbortController();
+    const tid = setTimeout(() => controller.abort(), 1500);
+    fetch('http://localhost:8080' + endpoint, { signal: controller.signal })
+      .then(() => clearTimeout(tid))
+      .catch(() => { clearTimeout(tid); showPathModal(path); });
+  }
+
+  function showPathModal(path) {
+    const modal = document.createElement('div');
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+    const box = document.createElement('div');
+    box.style.cssText = 'background:#E8E8E8;border-radius:18px;padding:24px;max-width:480px;width:100%;box-shadow:8px 8px 20px #D0D0D0,-8px -8px 20px #FFF';
+    const title = document.createElement('div');
+    title.style.cssText = 'font-size:14px;font-weight:700;color:#444;margin-bottom:8px';
+    title.textContent = '📁 社内ネットワークフォルダ';
+    const desc = document.createElement('div');
+    desc.style.cssText = 'font-size:11px;color:#888;margin-bottom:12px;line-height:1.5';
+    desc.textContent = '社内ネットワーク外からはフォルダを直接開けません。このパスをエクスプローラーのアドレスバーに貼り付けてください。';
+    const pathBox = document.createElement('div');
+    pathBox.style.cssText = 'background:#FFF;border-radius:10px;padding:10px 14px;font-size:12px;font-family:monospace;color:#444;word-break:break-all;margin-bottom:12px;box-shadow:inset 3px 3px 7px #D0D0D0,inset -3px -3px 7px #FFF';
+    pathBox.textContent = path;
+    const btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;gap:8px;justify-content:flex-end';
+    const copyBtn = document.createElement('button');
+    copyBtn.style.cssText = 'padding:8px 16px;background:#FF6B00;color:#fff;border:none;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer';
+    copyBtn.textContent = '📋 コピー';
+    copyBtn.onclick = () => navigator.clipboard.writeText(path).then(() => { copyBtn.textContent = '✓ コピー済み'; });
+    const closeBtn = document.createElement('button');
+    closeBtn.style.cssText = 'padding:8px 16px;background:#E8E8E8;box-shadow:3px 3px 8px #D0D0D0,-3px -3px 8px #FFF;color:#888;border:none;border-radius:20px;font-size:12px;cursor:pointer';
+    closeBtn.textContent = '閉じる';
+    closeBtn.onclick = () => modal.remove();
+    btnRow.appendChild(copyBtn);
+    btnRow.appendChild(closeBtn);
+    box.appendChild(title);
+    box.appendChild(desc);
+    box.appendChild(pathBox);
+    box.appendChild(btnRow);
+    modal.appendChild(box);
+    document.body.appendChild(modal);
+    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  }
+</script>
+
+</body>
+</html>
