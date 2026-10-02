@@ -35,7 +35,9 @@
       background: var(--bg);
       box-shadow: 0 4px 12px var(--sh-dark), 0 -1px 0 var(--sh-light);
       padding: 0 24px;
-      height: 64px;
+      min-height: 64px;
+      padding-top: 8px;
+      padding-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 14px;
@@ -66,10 +68,12 @@
       margin-top: 1px;
     }
 
-    .header-right {
-      margin-left: auto;
+    .header-links {
       display: flex;
+      flex-wrap: wrap;
       gap: 8px;
+      flex: 1;
+      min-width: 0;
     }
 
     .btn-official {
@@ -306,12 +310,42 @@
       letter-spacing: .06em;
       text-transform: uppercase;
     }
+
+    /* ===== RESPONSIVE（タブレット・スマホ） ===== */
+    .btn-official, .link-item, .copy-btn { -webkit-tap-highlight-color: transparent; }
+    .toast {
+      position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+      background: #444; color: #fff; font-size: 12px; padding: 10px 18px;
+      border-radius: 20px; z-index: 9999; max-width: 90vw; text-align: center;
+    }
+    @media (max-width: 1024px) {
+      main { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      header { position: static; padding: 10px 12px; align-items: flex-start; gap: 10px; }
+      header img { width: 36px; height: 36px; margin-top: 2px; }
+      .header-links { gap: 6px; }
+      .btn-official { padding: 8px 11px; font-size: 12px; }
+      .setup-banner { display: none; }
+      main { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 14px; padding: 14px 12px 32px; }
+      .card:hover { box-shadow: var(--raised); }
+      .card-header { font-size: 15px; }
+      .link-item { padding: 14px 16px; font-size: 14px; }
+      .link-item .link-text > div:first-child { font-size: 14px; }
+      .link-item .link-desc { font-size: 11px; }
+      .copy-btn { padding: 8px 14px; font-size: 12px; }
+    }
+    /* タッチ端末：NASは開けないので「コピー」を主役にする */
+    @media (hover: none) {
+      .link-item:hover { background: transparent; }
+    }
   </style>
 </head>
 <body>
 
 <header>
   <img src="patsfive.png" alt="PATSFIVE">
+  <div class="header-links">
   <a class="btn-official" href="https://patsfive.com/" target="_blank"><span class="btn-icon">🌐</span> 公式サイト</a>
   <a class="btn-official" href="https://docs.google.com/spreadsheets/d/1_Usp7rIoYpEwj5v8_5udqIs57Ve8qlWD/edit?usp=sharing&ouid=112945715978654030194&rtpof=true&sd=true" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#23A566" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="#1a7d4e" d="M14 2l6 6h-6z"/><rect fill="#fff" x="7" y="11" width="10" height="1.4" rx=".7"/><rect fill="#fff" x="7" y="13.8" width="10" height="1.4" rx=".7"/><rect fill="#fff" x="7" y="16.6" width="6" height="1.4" rx=".7"/></svg> 試合日程</a>
   <a class="btn-official" href="https://docs.google.com/spreadsheets/d/1_rJuVUcoesMSda6PI_VulQjAEeHqck0X6x4-ixKDxqg/edit?gid=0#gid=0" target="_blank"><span class="btn-icon">📅</span> チームスケジュール</a>
@@ -322,6 +356,7 @@
   <a class="btn-official" href="https://docs.google.com/spreadsheets/d/18w4r3ikj_9FUxrVKI7npbghrcm2SKcp0_Puts-WFFio/edit?gid=1981715065#gid=1981715065" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#23A566" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="#1a7d4e" d="M14 2l6 6h-6z"/><rect fill="#fff" x="7" y="11" width="10" height="1.4" rx=".7"/><rect fill="#fff" x="7" y="13.8" width="10" height="1.4" rx=".7"/><rect fill="#fff" x="7" y="16.6" width="6" height="1.4" rx=".7"/></svg> 興行・運営索引</a>
   <a class="btn-official" href="openexp://192.168.10.205/disk1"><span class="btn-icon">📁</span> PATS共有フォルダ</a>
   <a class="btn-official" href="https://photos.google.com/share/AF1QipNLvEQ3O-kc1S3F2AIS4w5ol773y0P-5dCOmlZK1laoKrgtArvvf-uwlOVVZmzUIQ?obfsgid=11294571597865403019&email=funatsu-daisuke@yamasan-grp.co.jp&key=bjdvcmNmYzFCYlQ2dk43NkhCVWhGYVVucFNYd1V3" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><ellipse cx="12" cy="6.5" rx="4" ry="5.5" fill="#4285F4"/><ellipse cx="17.5" cy="12" rx="5.5" ry="4" fill="#EA4335"/><ellipse cx="12" cy="17.5" rx="4" ry="5.5" fill="#FBBC05"/><ellipse cx="6.5" cy="12" rx="5.5" ry="4" fill="#34A853"/></svg> 選手宣材写真</a>
+  </div>
 </header>
 
 
@@ -520,11 +555,26 @@
 </footer>
 
 <script>
+  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  function showToast(msg) {
+    const d = document.createElement('div');
+    d.className = 'toast'; d.textContent = msg;
+    document.body.appendChild(d);
+    setTimeout(() => d.remove(), 2800);
+  }
   document.addEventListener('click', function(e) {
     const a = e.target.closest('a');
     if (!a) return;
     const href = a.getAttribute('href');
     if (!href) return;
+    if (isTouch && (href.startsWith('openexp://') || href.startsWith('openxl://'))) {
+      e.preventDefault();
+      const p = '\\\\' + href.replace(/^open(?:exp|xl):\/\//, '').replace(/\//g, '\\');
+      (navigator.clipboard ? navigator.clipboard.writeText(p) : Promise.reject())
+        .then(() => showToast('NASはPC専用です。場所をコピーしました（PCで貼り付けて開けます）'))
+        .catch(() => showToast('NASはPCから開いてください'));
+      return;
+    }
     if (href.startsWith('openexp://')) {
       e.preventDefault();
       const path = '\\\\' + href.replace('openexp://', '').replace(/\//g, '\\');
