@@ -57,10 +57,13 @@
     /* ===== ヒーロー（メインビジュアル） ===== */
     .hero { position: relative; background: #0E1230; color: #FFFFFF; overflow: hidden; }
     .hero-img {
-      display: block; width: 100%; height: auto;
-      max-height: calc(100vh - 64px); min-height: 280px;
-      object-fit: cover; object-position: center top;
+      display: block; width: 100%; max-width: 1600px; margin: 0 auto;
+      aspect-ratio: 2 / 1; height: auto;
+      object-fit: cover; object-position: center 16%;
+      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
     }
+    @media (max-width: 1600px) { .hero-img { -webkit-mask-image: none; mask-image: none; } }
     .hero-caption { padding: 28px 0 76px; background: #0E1230; }
     .hero-caption .wrap { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
     .hero-label {
@@ -162,7 +165,7 @@
       .nav-logo img { height: 32px; }
       .nav-logo strong { font-size: 13px; }
       .nav-menu { display: none; }
-      .hero-img { min-height: 0; }
+      .hero-img { aspect-ratio: 5 / 3; }
       .hero-caption { padding: 18px 0 64px; }
       .hero h1 { font-size: 28px; }
       .feature { grid-template-columns: auto 1fr; padding: 20px 18px 20px 22px; gap: 14px; }
