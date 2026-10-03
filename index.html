@@ -5,638 +5,321 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PATSFIVE ポータルサイト</title>
   <link rel="icon" href="patsfive.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #E8E8E8;
-      --sh-dark: #D0D0D0;
-      --sh-light: #FFFFFF;
-      --primary: #FF6B00;
-      --primary-dark: #E05500;
-      --text: #444444;
-      --text-sub: #888888;
-      --radius: 18px;
-      --raised: 6px 6px 14px var(--sh-dark), -6px -6px 14px var(--sh-light);
-      --raised-sm: 3px 3px 8px var(--sh-dark), -3px -3px 8px var(--sh-light);
-      --inset: inset 3px 3px 7px var(--sh-dark), inset -3px -3px 7px var(--sh-light);
+      --ink: #1F1F1F;
+      --dark: #2B2B2B;
+      --head: #404040;
+      --bg: #FFFFFF;
+      --bg-sub: #F4F4F4;
+      --line: #D9D9D9;
+      --line-strong: #9C9C9C;
+      --text: #333333;
+      --text-sub: #777777;
+      --accent: #E96003;
+      --wrap: 1120px;
+      --font: Arial, "BIZ UDPGothic", "BIZ UDPゴシック", "Hiragino Sans", "Meiryo", sans-serif;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    svg { fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 32px; }
 
-    body {
-      font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
+    /* ===== ナビ ===== */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
     }
-
-    /* ===== HEADER ===== */
-    header {
-      background: var(--bg);
-      box-shadow: 0 4px 12px var(--sh-dark), 0 -1px 0 var(--sh-light);
-      padding: 0 24px;
-      min-height: 64px;
-      padding-top: 8px;
-      padding-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      position: sticky;
-      top: 0;
-      z-index: 200;
+    .nav .wrap { display: flex; align-items: center; height: 64px; gap: 14px; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; }
+    .nav-logo img { height: 38px; width: auto; }
+    .nav-logo strong { font-size: 15px; letter-spacing: .14em; color: var(--ink); }
+    .nav-menu { margin-left: auto; display: flex; gap: 28px; }
+    .nav-menu a {
+      font-size: 12px; font-weight: 700; letter-spacing: .14em; color: var(--text-sub);
+      position: relative; padding: 4px 0;
     }
-
-    header img {
-      width: 40px; height: 40px;
-      object-fit: contain;
-      border-radius: 50%;
-      box-shadow: var(--raised-sm);
-      padding: 3px;
-      flex-shrink: 0;
+    .nav-menu a::after {
+      content: ""; position: absolute; left: 0; bottom: -2px; height: 2px; width: 0;
+      background: var(--accent); transition: width .25s;
     }
+    .nav-menu a:hover { color: var(--ink); }
+    .nav-menu a:hover::after { width: 100%; }
 
-    header h1 {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: .02em;
+    /* ===== ヒーロー（メインビジュアル） ===== */
+    .hero { position: relative; background: #0E1230; color: #FFFFFF; overflow: hidden; }
+    .hero-img {
+      display: block; width: 100%; height: auto;
+      max-height: calc(100vh - 64px); min-height: 280px;
+      object-fit: cover; object-position: center top;
     }
-
-    header p {
-      font-size: 11px;
-      color: var(--text-sub);
-      margin-top: 1px;
+    .hero-caption { padding: 28px 0 76px; background: #0E1230; }
+    .hero-caption .wrap { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+    .hero-label {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 700; letter-spacing: .24em; color: #D9D9D9;
     }
+    .hero-label::before { content: ""; width: 32px; height: 2px; background: var(--accent); }
+    .hero h1 { margin-top: 8px; font-size: 44px; line-height: 1.1; letter-spacing: .04em; font-weight: 700; }
+    .hero p { font-size: 13px; color: #CFCFCF; text-align: right; }
 
-    .header-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      flex: 1;
-      min-width: 0;
+    /* ===== 集客ダッシュボード（ヒーロー下に重ねる） ===== */
+    .feature-wrap { position: relative; margin-top: -44px; z-index: 2; }
+    .feature {
+      display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 26px 32px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.10);
+      transition: transform .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
     }
-
-    .btn-official {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 7px 14px;
-      background: var(--bg);
-      box-shadow: var(--raised-sm);
-      border-radius: 20px;
-      color: var(--primary);
-      font-size: 11px;
-      font-weight: 600;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: box-shadow .15s;
+    .feature::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent); }
+    .feature:hover { transform: translateY(-3px); box-shadow: 0 24px 50px rgba(0,0,0,.14); }
+    .feature-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--bg-sub); display: flex; align-items: center; justify-content: center;
     }
-
-    .btn-official:hover {
-      box-shadow: var(--inset);
+    .feature-icon svg { width: 28px; height: 28px; stroke: var(--head); }
+    .feature small { display: block; font-size: 11px; font-weight: 700; letter-spacing: .2em; color: var(--text-sub); }
+    .feature strong { display: block; font-size: 22px; color: var(--ink); margin: 2px 0; }
+    .feature-desc { font-size: 13px; color: var(--text-sub); }
+    .feature-go {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 13px; font-weight: 700; letter-spacing: .08em;
+      padding: 12px 22px; border-radius: 999px;
+      background: var(--head); color: #FFFFFF;
+      transition: background .25s;
     }
+    .feature-go i { font-style: normal; transition: transform .25s; }
+    .feature:hover .feature-go { background: var(--ink); }
+    .feature:hover .feature-go i { transform: translateX(4px); }
 
-    .btn-official .btn-icon {
-      display: inline-flex;
-      width: 16px;
-      height: 16px;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 16px;
-      line-height: 1;
+    /* ===== セクション ===== */
+    section.block { padding: 72px 0 8px; }
+    section.block:last-of-type { padding-bottom: 88px; }
+    .sec-head { display: flex; align-items: flex-end; gap: 18px; margin-bottom: 28px; }
+    .sec-num { font-size: 48px; font-weight: 700; line-height: .9; color: var(--line); letter-spacing: -.02em; }
+    .sec-en { display: block; font-size: 12px; font-weight: 700; letter-spacing: .28em; color: var(--text-sub); }
+    .sec-head h2 { font-size: 22px; color: var(--ink); letter-spacing: .06em; line-height: 1.3; }
+    .sec-line { flex: 1; height: 1px; background: var(--line); margin-bottom: 8px; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+    .card {
+      position: relative; display: flex; flex-direction: column;
+      background: #FFFFFF; border: 1px solid var(--line); border-radius: 6px;
+      padding: 26px 24px 22px; min-height: 176px;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
       overflow: hidden;
     }
-
-    .btn-official svg {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
+    .card::after {
+      content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
+      background: var(--head); transform: scaleX(0); transform-origin: left; transition: transform .3s;
     }
-
-
-    .vmv-body li {
-      list-style: none;
-      padding-left: 10px;
-      position: relative;
+    .card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0,0,0,.08); border-color: var(--line-strong); }
+    .card:hover::after { transform: scaleX(1); }
+    .card-icon { width: 44px; height: 44px; border-radius: 50%; background: var(--bg-sub); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; transition: background .25s; }
+    .card-icon svg { width: 22px; height: 22px; stroke: var(--head); transition: stroke .25s; }
+    .card:hover .card-icon { background: var(--head); }
+    .card:hover .card-icon svg { stroke: #FFFFFF; }
+    .card strong { font-size: 17px; color: var(--ink); }
+    .card span { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+    .card-foot {
+      margin-top: auto; padding-top: 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 11px; font-weight: 700; letter-spacing: .16em; color: var(--line-strong);
     }
+    .card-foot i { font-style: normal; font-size: 16px; transition: transform .25s, color .25s; }
+    .card:hover .card-foot { color: var(--text); }
+    .card:hover .card-foot i { transform: translateX(4px); }
 
-    .vmv-body li::before {
-      content: '▸';
-      position: absolute;
-      left: 0;
-      color: var(--primary);
-      font-size: 10px;
+    /* ===== フッター ===== */
+    footer { background: var(--ink); color: #9C9C9C; }
+    footer .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 28px; padding-bottom: 28px; }
+    footer .f-logo { display: flex; align-items: center; gap: 12px; }
+    footer img { height: 34px; width: auto; }
+    footer strong { color: #FFFFFF; font-size: 13px; letter-spacing: .14em; }
+    footer small { font-size: 11px; letter-spacing: .08em; }
+
+    /* ===== レスポンシブ ===== */
+    @media (max-width: 860px) {
+      .hero-caption { padding: 22px 0 70px; }
+      .hero h1 { font-size: 34px; }
+      .hero p { display: none; }
     }
-
-
-    /* ===== SETUP BANNER ===== */
-    .setup-banner {
-      margin: 20px 24px 0;
-      background: var(--bg);
-      box-shadow: var(--raised);
-      border-radius: var(--radius);
-      border-left: 5px solid var(--primary);
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .setup-banner .setup-icon { font-size: 22px; flex-shrink: 0; }
-
-    .setup-banner .setup-text { flex: 1; min-width: 180px; }
-    .setup-banner .setup-text strong { font-size: 13px; color: var(--text); }
-    .setup-banner .setup-text span { font-size: 11px; color: var(--text-sub); display: block; margin-top: 2px; }
-
-    .btn-setup {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 8px 18px;
-      background: var(--primary);
-      color: #fff;
-      font-size: 12px;
-      font-weight: 700;
-      border-radius: 20px;
-      text-decoration: none;
-      box-shadow: 3px 3px 8px var(--sh-dark), -1px -1px 4px var(--sh-light);
-      white-space: nowrap;
-      transition: box-shadow .15s;
-    }
-
-    .btn-setup:hover { box-shadow: 1px 1px 4px var(--sh-dark), inset 1px 1px 3px rgba(0,0,0,.15); }
-
-    /* ===== MAIN GRID ===== */
-    main {
-      padding: 20px 24px 48px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: 1fr;
-      gap: 20px;
-    }
-
-    .card {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-body {
-      flex: 1;
-    }
-
-    /* ===== CARDS ===== */
-    .card {
-      background: var(--bg);
-      box-shadow: var(--raised);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: box-shadow .2s;
-    }
-
-    .card:hover {
-      box-shadow: 8px 8px 18px var(--sh-dark), -8px -8px 18px var(--sh-light);
-    }
-
-    .card-header {
-      padding: 13px 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--primary);
-      border-bottom: 2px solid var(--sh-dark);
-    }
-
-    .card-header .icon { font-size: 17px; }
-
-    .card-header .icon-b {
-      width: 24px; height: 24px;
-      border-radius: 5px;
-      background: var(--primary);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 900;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 2px 2px 5px var(--sh-dark), -1px -1px 3px var(--sh-light);
-    }
-
-    .card-body { padding: 2px 0; }
-
-    /* ===== LIST ITEMS ===== */
-    .link-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 11px 18px;
-      text-decoration: none;
-      color: var(--text);
-      font-size: 13px;
-      border-bottom: 1px solid var(--sh-dark);
-      transition: background .12s;
-    }
-
-    .link-item:last-child { border-bottom: none; }
-
-    .link-item:hover {
-      background: rgba(255,107,0,.05);
-    }
-
-    .link-item .link-icon {
-      font-size: 15px;
-      width: 20px;
-      text-align: center;
-      flex-shrink: 0;
-      opacity: .75;
-    }
-
-    .link-item .link-text { flex: 1; }
-
-    .link-item .link-text > div:first-child {
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .link-item .link-desc {
-      font-size: 10px;
-      color: var(--text-sub);
-      margin-top: 1px;
-    }
-
-    .link-item .badge {
-      font-size: 9px;
-      padding: 3px 8px;
-      border-radius: 8px;
-      background: var(--bg);
-      box-shadow: var(--inset);
-      color: var(--primary);
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .link-item.excel { background: rgba(34,160,70,.04); }
-    .link-item.excel:hover { background: rgba(34,160,70,.08); }
-    .link-item.excel .link-text > div:first-child { color: #1a7a3a; }
-
-    /* ===== COPY BUTTON ===== */
-    .copy-btn {
-      flex-shrink: 0;
-      padding: 3px 10px;
-      background: var(--bg);
-      box-shadow: var(--inset);
-      border: none;
-      border-radius: 8px;
-      font-size: 10px;
-      color: var(--text-sub);
-      cursor: pointer;
-      font-weight: 600;
-      transition: color .15s, box-shadow .15s;
-      margin-left: 4px;
-    }
-    .copy-btn:hover { color: var(--primary); }
-    .copy-btn.copied { color: #2E9E5B; box-shadow: var(--raised-sm); }
-
-    /* ===== FOOTER ===== */
-    footer {
-      text-align: center;
-      padding: 16px;
-      font-size: 10px;
-      color: var(--text-sub);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-
-    /* ===== RESPONSIVE（タブレット・スマホ） ===== */
-    .btn-official, .link-item, .copy-btn { -webkit-tap-highlight-color: transparent; }
-    .toast {
-      position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
-      background: #444; color: #fff; font-size: 12px; padding: 10px 18px;
-      border-radius: 20px; z-index: 9999; max-width: 90vw; text-align: center;
-    }
-    @media (max-width: 1024px) {
-      main { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 640px) {
-      header { position: static; padding: 10px 12px; align-items: flex-start; gap: 10px; }
-      header img { width: 36px; height: 36px; margin-top: 2px; }
-      .header-links { gap: 6px; }
-      .btn-official { padding: 8px 11px; font-size: 12px; }
-      .setup-banner { display: none; }
-      main { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 14px; padding: 14px 12px 32px; }
-      .card:hover { box-shadow: var(--raised); }
-      .card-header { font-size: 15px; }
-      .link-item { padding: 14px 16px; font-size: 14px; }
-      .link-item .link-text > div:first-child { font-size: 14px; }
-      .link-item .link-desc { font-size: 11px; }
-      .copy-btn { padding: 8px 14px; font-size: 12px; }
-    }
-    /* タッチ端末：NASは開けないので「コピー」を主役にする */
-    @media (hover: none) {
-      .link-item:hover { background: transparent; }
+    @media (max-width: 600px) {
+      .wrap { padding: 0 16px; }
+      .nav .wrap { height: 56px; }
+      .nav-logo img { height: 32px; }
+      .nav-logo strong { font-size: 13px; }
+      .nav-menu { display: none; }
+      .hero-img { min-height: 0; }
+      .hero-caption { padding: 18px 0 64px; }
+      .hero h1 { font-size: 28px; }
+      .feature { grid-template-columns: auto 1fr; padding: 20px 18px 20px 22px; gap: 14px; }
+      .feature-icon { width: 46px; height: 46px; }
+      .feature strong { font-size: 18px; }
+      .feature-go { grid-column: 1 / -1; justify-content: center; }
+      section.block { padding-top: 52px; }
+      .sec-num { font-size: 36px; }
+      .sec-head h2 { font-size: 19px; }
+      .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .card { padding: 18px 16px 14px; min-height: 150px; }
+      .card-icon { width: 38px; height: 38px; margin-bottom: 12px; }
+      .card strong { font-size: 15px; }
+      footer .wrap { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <img src="patsfive.png" alt="PATSFIVE">
-  <div class="header-links">
-  <a class="btn-official" href="https://patsfive.com/" target="_blank"><span class="btn-icon">🌐</span> 公式サイト</a>
-  <a class="btn-official" href="https://docs.google.com/spreadsheets/d/1_Usp7rIoYpEwj5v8_5udqIs57Ve8qlWD/edit?usp=sharing&ouid=112945715978654030194&rtpof=true&sd=true" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#23A566" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="#1a7d4e" d="M14 2l6 6h-6z"/><rect fill="#fff" x="7" y="11" width="10" height="1.4" rx=".7"/><rect fill="#fff" x="7" y="13.8" width="10" height="1.4" rx=".7"/><rect fill="#fff" x="7" y="16.6" width="6" height="1.4" rx=".7"/></svg> 試合日程</a>
-  <a class="btn-official" href="https://docs.google.com/spreadsheets/d/1_rJuVUcoesMSda6PI_VulQjAEeHqck0X6x4-ixKDxqg/edit?gid=0#gid=0" target="_blank"><span class="btn-icon">📅</span> チームスケジュール</a>
-  <a class="btn-official" href="https://docs.google.com/spreadsheets/d/1qjO6yArXyCCmCzLCLX1CHBA6cxPFFDg1/edit?gid=341808471#gid=341808471" target="_blank"><span class="btn-icon">📋</span> 運営カレンダー</a>
-  <a class="btn-official" href="https://docs.google.com/forms/d/e/1FAIpQLSeRhQ9DbS1T_UoiF1B05-OaIRCKKvT2cjbTvmq3Grwr9jQWBw/viewform" target="_blank"><span class="btn-icon">📝</span> 依頼フォーム</a>
-  <a class="btn-official" href="https://drive.google.com/drive/u/0/my-drive?lfhs=2" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.3 78"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0-1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.5l5.85 11.5z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg> マイドライブ</a>
-  <a class="btn-official" href="https://drive.google.com/drive/folders/18ZChyOoHNUW32SLbyPaKQOnm0-LxNEAa" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.3 78"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0-1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.5l5.85 11.5z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg> Bリーグ</a>
-  <a class="btn-official" href="https://docs.google.com/spreadsheets/d/18w4r3ikj_9FUxrVKI7npbghrcm2SKcp0_Puts-WFFio/edit?gid=1981715065#gid=1981715065" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#23A566" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="#1a7d4e" d="M14 2l6 6h-6z"/><rect fill="#fff" x="7" y="11" width="10" height="1.4" rx=".7"/><rect fill="#fff" x="7" y="13.8" width="10" height="1.4" rx=".7"/><rect fill="#fff" x="7" y="16.6" width="6" height="1.4" rx=".7"/></svg> 興行・運営索引</a>
-  <a class="btn-official" href="openexp://192.168.10.205/disk1"><span class="btn-icon">📁</span> PATS共有フォルダ</a>
-  <a class="btn-official" href="https://photos.google.com/share/AF1QipNLvEQ3O-kc1S3F2AIS4w5ol773y0P-5dCOmlZK1laoKrgtArvvf-uwlOVVZmzUIQ?obfsgid=11294571597865403019&email=funatsu-daisuke@yamasan-grp.co.jp&key=bjdvcmNmYzFCYlQ2dk43NkhCVWhGYVVucFNYd1V3" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><ellipse cx="12" cy="6.5" rx="4" ry="5.5" fill="#4285F4"/><ellipse cx="17.5" cy="12" rx="5.5" ry="4" fill="#EA4335"/><ellipse cx="12" cy="17.5" rx="4" ry="5.5" fill="#FBBC05"/><ellipse cx="6.5" cy="12" rx="5.5" ry="4" fill="#34A853"/></svg> 選手宣材写真</a>
+<!-- ナビ -->
+<nav class="nav">
+  <div class="wrap">
+    <a class="nav-logo" href="#top">
+      <img src="patsfive.png" alt="PATSFIVE">
+      <strong>PATSFIVE PORTAL</strong>
+    </a>
+    <div class="nav-menu">
+      <a href="#schedule">SCHEDULE</a>
+      <a href="#documents">DOCUMENTS</a>
+      <a href="#request">REQUEST</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ヒーロー -->
+<header class="hero" id="top">
+  <img class="hero-img" src="hero.jpg" alt="山口から、熱狂を。山口パッツファイブ 2026-27">
+  <div class="hero-caption">
+    <div class="wrap">
+      <div>
+        <div class="hero-label">2026-27 SEASON</div>
+        <h1>STAFF PORTAL</h1>
+      </div>
+      <p>試合日程・スケジュール・共有資料・依頼フォームへの入口</p>
+    </div>
   </div>
 </header>
 
-
-<div class="setup-banner">
-  <span class="setup-icon">🔧</span>
-  <div class="setup-text">
-    <strong>フォルダリンクを初めて使う方へ（初回のみ）</strong>
-    <span>セットアップファイルをダウンロードして実行するとフォルダが開けるようになります</span>
-  </div>
-  <a href="setup.bat" download class="btn-setup">⬇ セットアップを開始</a>
+<!-- 集客ダッシュボード -->
+<div class="wrap feature-wrap">
+  <a class="feature" href="https://funatsu-daisuke-beep.github.io/patsfive-dashboard/" target="_blank" rel="noopener">
+    <div class="feature-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+    </div>
+    <div>
+      <small>ATTENDANCE</small>
+      <strong>集客ダッシュボード</strong>
+      <div class="feature-desc">2026-27シーズン ホーム戦の目標・実績・推移</div>
+    </div>
+    <span class="feature-go">ダッシュボードを見る <i>→</i></span>
+  </a>
 </div>
 
-<main id="main">
+<main>
 
-  <!-- スポンサー営業関連 -->
-  <div class="card" data-category="スポンサー営業関連">
-    <div class="card-header">
-      <span class="icon">🏀</span> スポンサー営業関連
+  <!-- 01 試合・スケジュール -->
+  <section class="block" id="schedule">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-num">01</div>
+        <div><span class="sec-en">SCHEDULE</span><h2>試合・スケジュール</h2></div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://docs.google.com/spreadsheets/d/1_Usp7rIoYpEwj5v8_5udqIs57Ve8qlWD/edit?usp=sharing&ouid=112945715978654030194&rtpof=true&sd=true" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c3.5 3.5 3.5 9.3 0 12.8M18.4 5.6c-3.5 3.5-3.5 9.3 0 12.8"/></svg></div>
+          <strong>試合日程</strong><span>シーズン全試合の日程</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+        <a class="card" href="https://docs.google.com/spreadsheets/d/1_rJuVUcoesMSda6PI_VulQjAEeHqck0X6x4-ixKDxqg/edit?gid=1785796025#gid=1785796025" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+          <strong>チームスケジュール</strong><span>練習・移動などの予定</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+        <a class="card" href="https://docs.google.com/spreadsheets/d/1qjO6yArXyCCmCzLCLX1CHBA6cxPFFDg1/edit?gid=341808471#gid=341808471" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 14h3M8 17h6"/></svg></div>
+          <strong>運営カレンダー</strong><span>試合運営のスケジュール</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+      </div>
     </div>
-    <div class="card-body">
-      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\26-27シーズン\営業資料">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>営業資料フォルダ</div>
-          <div class="link-desc">NAS ／ 26-27シーズン 営業資料</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\26-27シーズン\広告ガイドライン">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>広告ガイドラインフォルダ</div>
-          <div class="link-desc">NAS ／ 26-27シーズン 広告ガイドライン</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\各クラブセールスシート　25-26シーズン">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>他クラブセールスシートフォルダ</div>
-          <div class="link-desc">NAS ／ 各クラブセールスシート 25-26シーズン</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-      <a class="link-item excel" href="openxl://192.168.10.205/disk1/営業共有/★営業管理シート.xlsx">
-        <span class="link-icon">📊</span>
-        <div class="link-text">
-          <div>営業管理シート</div>
-          <div class="link-desc">NAS ／ スポンサー営業管理</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-    </div>
-  </div>
+  </section>
 
-  <!-- 集客関連 -->
-  <div class="card" data-category="集客関連">
-    <div class="card-header">
-      <span class="icon">👥</span> 集客関連
+  <!-- 02 資料・ドライブ -->
+  <section class="block" id="documents">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-num">02</div>
+        <div><span class="sec-en">DOCUMENTS</span><h2>資料・ドライブ</h2></div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://drive.google.com/drive/u/0/my-drive?lfhs=2" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <strong>マイドライブ</strong><span>Googleドライブ</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+        <a class="card" href="https://drive.google.com/drive/folders/18ZChyOoHNUW32SLbyPaKQOnm0-LxNEAa" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 13h6"/></svg></div>
+          <strong>Bリーグ</strong><span>Bリーグ共有ドライブ</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+        <a class="card" href="https://docs.google.com/spreadsheets/d/18w4r3ikj_9FUxrVKI7npbghrcm2SKcp0_Puts-WFFio/edit?gid=1981715065#gid=1981715065" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></div>
+          <strong>興行・運営索引</strong><span>Bリーグ資料の探し方一覧</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+        <a class="card" href="https://photos.google.com/share/AF1QipNLvEQ3O-kc1S3F2AIS4w5ol773y0P-5dCOmlZK1laoKrgtArvvf-uwlOVVZmzUIQ?key=bjdvcmNmYzFCYlQ2dk43NkhCVWhGYVVucFNYd1V3" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></div>
+          <strong>選手宣材写真</strong><span>Googleフォト共有アルバム</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+      </div>
     </div>
-    <div class="card-body">
-      <a class="link-item" href="openexp://192.168.10.205/disk1/集客">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>集客フォルダ</div>
-          <div class="link-desc">NAS ／ 集客</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-      <a class="link-item" href="openexp://192.168.10.205/disk1/集客/提案資料">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>企業提案資料フォルダ</div>
-          <div class="link-desc">NAS ／ 集客 ／ 提案資料</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-    </div>
-  </div>
+  </section>
 
-  <!-- 広報関連 -->
-  <div class="card" data-category="広報関連">
-    <div class="card-header">
-      <span class="icon">📣</span> 広報関連
+  <!-- 03 依頼・公式 -->
+  <section class="block" id="request">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-num">03</div>
+        <div><span class="sec-en">REQUEST &amp; OFFICIAL</span><h2>依頼・公式</h2></div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://docs.google.com/forms/d/e/1FAIpQLSeRhQ9DbS1T_UoiF1B05-OaIRCKKvT2cjbTvmq3Grwr9jQWBw/viewform" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div>
+          <strong>依頼フォーム</strong><span>各種依頼の受付</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+        <a class="card" href="https://patsfive.com/" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg></div>
+          <strong>公式サイト</strong><span>patsfive.com</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+      </div>
     </div>
-    <div class="card-body">
-      <a class="link-item" href="openexp://192.168.10.205/disk1/広報">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>広報フォルダ</div>
-          <div class="link-desc">NAS ／ 広報</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- 運営・興行関連 -->
-  <div class="card" data-category="運営・興行関連">
-    <div class="card-header">
-      <span class="icon">🎪</span> 運営・興行関連
-    </div>
-    <div class="card-body">
-      <a class="link-item" href="openexp://192.168.10.205/disk1/運営・興行/運営">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>運営フォルダ</div>
-          <div class="link-desc">NAS ／ 運営・興行 ／ 運営</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-      <a class="link-item" href="openexp://192.168.10.205/disk1/運営・興行/興行">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>興行フォルダ</div>
-          <div class="link-desc">NAS ／ 運営・興行 ／ 興行</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- 行政関連 -->
-  <div class="card" data-category="行政関連">
-    <div class="card-header">
-      <span class="icon">🏛</span> 行政関連
-    </div>
-    <div class="card-body">
-      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\26-27シーズン\行政資料">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>行政資料フォルダ</div>
-          <div class="link-desc">NAS ／ 26-27シーズン 行政資料</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-      <a class="link-item excel" href="openxl://192.168.10.205/disk1/営業共有/行政面談管理シート.xlsx">
-        <span class="link-icon">📊</span>
-        <div class="link-text">
-          <div>行政面談管理シート</div>
-          <div class="link-desc">NAS ／ 行政面談管理</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-    </div>
-  </div>
-
-
-  <!-- GOODS・OFFICIALSTORE関連 -->
-  <div class="card" data-category="GOODS・OFFICIALSTORE関連">
-    <div class="card-header">
-      <span class="icon">🛍️</span> GOODS・OFFICIALSTORE関連
-    </div>
-    <div class="card-body">
-      <a class="link-item" href="openexp://192.168.10.205/disk1/GOODS・OFFICIALSTORE/GOODS">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>GOODSフォルダ</div>
-          <div class="link-desc">NAS ／ GOODS・OFFICIALSTORE ／ GOODS</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-      <a class="link-item" href="openexp://192.168.10.205/disk1/GOODS・OFFICIALSTORE/OFFICIALSTORE">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>OFFICIALSTOREフォルダ</div>
-          <div class="link-desc">NAS ／ GOODS・OFFICIALSTORE ／ OFFICIALSTORE</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- バスケットLIVE関連 -->
-  <div class="card" data-category="バスケットLIVE">
-    <div class="card-header">
-      <span class="icon">📺</span> バスケットLIVE関連
-    </div>
-    <div class="card-body">
-      <a class="link-item" href="openexp://192.168.10.205/disk1/営業共有\バスケットLIVE">
-        <span class="link-icon">📁</span>
-        <div class="link-text">
-          <div>バスケットLIVEフォルダ</div>
-          <div class="link-desc">NAS ／ 営業共有 バスケットLIVE</div>
-        </div>
-        <span class="badge">NAS</span>
-      </a>
-    </div>
-  </div>
+  </section>
 
 </main>
 
-
 <footer>
-  PATSFIVE PORTAL ／ パッツファイブ
+  <div class="wrap">
+    <div class="f-logo"><img src="patsfive.png" alt=""><strong>PATSFIVE PORTAL</strong></div>
+    <small>© YAMAGUCHI PATSFIVE ／ スタッフ専用</small>
+  </div>
 </footer>
-
-<script>
-  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-  function showToast(msg) {
-    const d = document.createElement('div');
-    d.className = 'toast'; d.textContent = msg;
-    document.body.appendChild(d);
-    setTimeout(() => d.remove(), 2800);
-  }
-  document.addEventListener('click', function(e) {
-    const a = e.target.closest('a');
-    if (!a) return;
-    const href = a.getAttribute('href');
-    if (!href) return;
-    if (isTouch && (href.startsWith('openexp://') || href.startsWith('openxl://'))) {
-      e.preventDefault();
-      const p = '\\\\' + href.replace(/^open(?:exp|xl):\/\//, '').replace(/\//g, '\\');
-      (navigator.clipboard ? navigator.clipboard.writeText(p) : Promise.reject())
-        .then(() => showToast('NASはPC専用です。場所をコピーしました（PCで貼り付けて開けます）'))
-        .catch(() => showToast('NASはPCから開いてください'));
-      return;
-    }
-    if (href.startsWith('openexp://')) {
-      e.preventDefault();
-      const path = '\\\\' + href.replace('openexp://', '').replace(/\//g, '\\');
-      tryOpenLocal('/open-folder?path=' + encodeURIComponent(path), path);
-    } else if (href.startsWith('openxl://')) {
-      e.preventDefault();
-      const path = '\\\\' + href.replace('openxl://', '').replace(/\//g, '\\');
-      tryOpenLocal('/open-excel?path=' + encodeURIComponent(path), path);
-    }
-  });
-
-  function tryOpenLocal(endpoint, path) {
-    const controller = new AbortController();
-    const tid = setTimeout(() => controller.abort(), 1500);
-    fetch('http://localhost:8080' + endpoint, { signal: controller.signal })
-      .then(() => clearTimeout(tid))
-      .catch(() => { clearTimeout(tid); showInfoModal(); });
-  }
-
-  // コピーボタンを全NASリンクに追加
-  document.querySelectorAll('.link-item[href^="openexp://"], .link-item[href^="openxl://"]').forEach(link => {
-    const href = link.getAttribute('href');
-    const path = '\\\\' + href.replace(/^open(?:exp|xl):\/\//, '').replace(/\//g, '\\');
-    const btn = document.createElement('button');
-    btn.className = 'copy-btn';
-    btn.textContent = 'コピー';
-    btn.title = path;
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      e.stopPropagation();
-      navigator.clipboard.writeText(path).then(() => {
-        btn.textContent = '✓';
-        btn.classList.add('copied');
-        setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 1500);
-      });
-    });
-    link.appendChild(btn);
-  });
-
-function showInfoModal() {
-    const modal = document.createElement('div');
-    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
-    const box = document.createElement('div');
-    box.style.cssText = 'background:#E8E8E8;border-radius:18px;padding:28px 32px;max-width:440px;width:100%;box-shadow:8px 8px 20px #D0D0D0,-8px -8px 20px #FFF;text-align:center';
-    const msg1 = document.createElement('div');
-    msg1.style.cssText = 'font-size:13px;font-weight:600;color:#444;margin-bottom:10px;line-height:1.6';
-    msg1.textContent = '社外ネットワークの場合はVPN接続が必要です。';
-    const msg2 = document.createElement('div');
-    msg2.style.cssText = 'font-size:12px;font-weight:600;color:#888;margin-bottom:20px';
-    msg2.textContent = 'エクセルの起動は数秒かかります。';
-    const closeBtn = document.createElement('button');
-    closeBtn.style.cssText = 'padding:8px 28px;background:#E8E8E8;box-shadow:3px 3px 8px #D0D0D0,-3px -3px 8px #FFF;color:#666;border:none;border-radius:20px;font-size:12px;cursor:pointer';
-    closeBtn.textContent = '閉じる';
-    closeBtn.onclick = () => modal.remove();
-    box.appendChild(msg1);
-    box.appendChild(msg2);
-    box.appendChild(closeBtn);
-    modal.appendChild(box);
-    document.body.appendChild(modal);
-    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-  }
-</script>
 
 </body>
 </html>
