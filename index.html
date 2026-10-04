@@ -42,9 +42,9 @@
     .nav-logo { display: flex; align-items: center; gap: 12px; }
     .nav-logo img { height: 38px; width: auto; }
     .nav-logo strong { font-size: 15px; letter-spacing: .14em; color: var(--ink); }
-    .nav-menu { margin-left: auto; display: flex; gap: 28px; }
+    .nav-menu { margin-left: auto; display: flex; gap: 24px; }
     .nav-menu a {
-      font-size: 12px; font-weight: 700; letter-spacing: .14em; color: var(--text-sub);
+      font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--text-sub);
       position: relative; padding: 4px 0;
     }
     .nav-menu a::after {
@@ -54,44 +54,62 @@
     .nav-menu a:hover { color: var(--ink); }
     .nav-menu a:hover::after { width: 100%; }
 
-    /* ===== ヒーロー（メインビジュアル） ===== */
-    .hero { position: relative; background: #0E1230; color: #FFFFFF; overflow: hidden; }
-    .hero-img {
-      display: block; width: 100%; max-width: 1600px; margin: 0 auto;
-      aspect-ratio: 2 / 1; height: auto;
-      object-fit: cover; object-position: center 16%;
-      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
-      mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    /* ===== ヒーロー ===== */
+    .hero {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--ink) 0%, var(--dark) 55%, var(--head) 100%);
+      color: #FFFFFF;
     }
-    @media (max-width: 1600px) { .hero-img { -webkit-mask-image: none; mask-image: none; } }
-    .hero-caption { padding: 28px 0 76px; background: #0E1230; }
-    .hero-caption .wrap { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(-55deg, rgba(255,255,255,.035) 0 2px, transparent 2px 22px);
+      pointer-events: none;
+    }
+    .hero::after {
+      /* 右上のコート風サークル */
+      content: ""; position: absolute; width: 640px; height: 640px; right: -160px; top: -200px;
+      border: 1px solid rgba(255,255,255,.08); border-radius: 50%;
+      box-shadow: 0 0 0 90px rgba(255,255,255,.015), 0 0 0 91px rgba(255,255,255,.06);
+      pointer-events: none;
+    }
+    .hero-bgtext {
+      position: absolute; left: -10px; bottom: -46px;
+      font-size: 200px; font-weight: 700; line-height: 1; letter-spacing: -.02em;
+      color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.08);
+      white-space: nowrap; pointer-events: none; user-select: none;
+    }
+    .hero .wrap {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1.3fr 1fr; align-items: center; gap: 40px;
+      padding-top: 80px; padding-bottom: 100px;
+    }
     .hero-label {
       display: inline-flex; align-items: center; gap: 10px;
       font-size: 12px; font-weight: 700; letter-spacing: .24em; color: #D9D9D9;
     }
     .hero-label::before { content: ""; width: 32px; height: 2px; background: var(--accent); }
-    .hero h1 { margin-top: 8px; font-size: 44px; line-height: 1.1; letter-spacing: .04em; font-weight: 700; }
-    .hero p { font-size: 13px; color: #CFCFCF; text-align: right; }
+    .hero h1 { margin: 18px 0 16px; font-size: 64px; line-height: 1.05; letter-spacing: .02em; font-weight: 700; }
+    .hero h1 span { display: block; color: #9C9C9C; font-size: 28px; letter-spacing: .3em; margin-top: 12px; }
+    .hero p { font-size: 15px; color: #CFCFCF; max-width: 460px; }
+    .hero-logo { justify-self: end; position: relative; }
+    .hero-logo::before {
+      content: ""; position: absolute; inset: -14%; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.10), transparent 65%);
+    }
+    .hero-logo img { position: relative; width: 290px; max-width: 100%; height: auto; filter: drop-shadow(0 18px 36px rgba(0,0,0,.45)); }
 
-    /* ===== 集客ダッシュボード（ヒーロー下に重ねる） ===== */
+    /* ===== 集客ダッシュボード ===== */
     .feature-wrap { position: relative; margin-top: -44px; z-index: 2; }
     .feature {
       display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px;
-      background: #FFFFFF;
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      padding: 26px 32px;
-      box-shadow: 0 18px 40px rgba(0,0,0,.10);
+      background: #FFFFFF; border: 1px solid var(--line); border-radius: 6px;
+      padding: 26px 32px; box-shadow: 0 18px 40px rgba(0,0,0,.10);
       transition: transform .25s, box-shadow .25s;
       position: relative; overflow: hidden;
     }
     .feature::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent); }
     .feature:hover { transform: translateY(-3px); box-shadow: 0 24px 50px rgba(0,0,0,.14); }
-    .feature-icon {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: var(--bg-sub); display: flex; align-items: center; justify-content: center;
-    }
+    .feature-icon { width: 56px; height: 56px; border-radius: 50%; background: var(--bg-sub); display: flex; align-items: center; justify-content: center; }
     .feature-icon svg { width: 28px; height: 28px; stroke: var(--head); }
     .feature small { display: block; font-size: 11px; font-weight: 700; letter-spacing: .2em; color: var(--text-sub); }
     .feature strong { display: block; font-size: 22px; color: var(--ink); margin: 2px 0; }
@@ -99,8 +117,7 @@
     .feature-go {
       display: inline-flex; align-items: center; gap: 10px;
       font-size: 13px; font-weight: 700; letter-spacing: .08em;
-      padding: 12px 22px; border-radius: 999px;
-      background: var(--head); color: #FFFFFF;
+      padding: 12px 22px; border-radius: 999px; background: var(--head); color: #FFFFFF;
       transition: background .25s;
     }
     .feature-go i { font-style: normal; transition: transform .25s; }
@@ -116,11 +133,11 @@
     .sec-head h2 { font-size: 22px; color: var(--ink); letter-spacing: .06em; line-height: 1.3; }
     .sec-line { flex: 1; height: 1px; background: var(--line); margin-bottom: 8px; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
     .card {
       position: relative; display: flex; flex-direction: column;
       background: #FFFFFF; border: 1px solid var(--line); border-radius: 6px;
-      padding: 26px 24px 22px; min-height: 176px;
+      padding: 24px 22px 20px; min-height: 172px;
       transition: transform .25s, box-shadow .25s, border-color .25s;
       overflow: hidden;
     }
@@ -141,7 +158,7 @@
       display: flex; align-items: center; justify-content: space-between;
       font-size: 11px; font-weight: 700; letter-spacing: .16em; color: var(--line-strong);
     }
-    .card-foot i { font-style: normal; font-size: 16px; transition: transform .25s, color .25s; }
+    .card-foot i { font-style: normal; font-size: 16px; transition: transform .25s; }
     .card:hover .card-foot { color: var(--text); }
     .card:hover .card-foot i { transform: translateX(4px); }
 
@@ -154,20 +171,27 @@
     footer small { font-size: 11px; letter-spacing: .08em; }
 
     /* ===== レスポンシブ ===== */
+    @media (max-width: 960px) { .nav-menu { display: none; } }
     @media (max-width: 860px) {
-      .hero-caption { padding: 22px 0 70px; }
-      .hero h1 { font-size: 34px; }
-      .hero p { display: none; }
+      .hero .wrap { grid-template-columns: 1fr; padding-top: 56px; padding-bottom: 84px; }
+      .hero-logo { position: absolute; right: 24px; top: 40px; opacity: .22; }
+      .hero-logo img { width: 200px; }
+      .hero h1 { font-size: 48px; }
+      .hero h1 span { font-size: 22px; }
+      .hero-bgtext { font-size: 120px; bottom: -28px; }
     }
     @media (max-width: 600px) {
       .wrap { padding: 0 16px; }
       .nav .wrap { height: 56px; }
       .nav-logo img { height: 32px; }
       .nav-logo strong { font-size: 13px; }
-      .nav-menu { display: none; }
-      .hero-img { aspect-ratio: 5 / 3; }
-      .hero-caption { padding: 18px 0 64px; }
-      .hero h1 { font-size: 28px; }
+      .hero .wrap { padding-top: 44px; padding-bottom: 76px; }
+      .hero h1 { font-size: 38px; }
+      .hero h1 span { font-size: 17px; letter-spacing: .24em; }
+      .hero p { font-size: 13px; }
+      .hero-logo { right: 8px; top: 24px; }
+      .hero-logo img { width: 150px; }
+      .hero-bgtext { font-size: 84px; bottom: -20px; }
       .feature { grid-template-columns: auto 1fr; padding: 20px 18px 20px 22px; gap: 14px; }
       .feature-icon { width: 46px; height: 46px; }
       .feature strong { font-size: 18px; }
@@ -193,24 +217,25 @@
       <strong>PATSFIVE PORTAL</strong>
     </a>
     <div class="nav-menu">
+      <a href="#official">OFFICIAL</a>
       <a href="#schedule">SCHEDULE</a>
-      <a href="#documents">DOCUMENTS</a>
-      <a href="#request">REQUEST</a>
+      <a href="#manual">MANUAL</a>
+      <a href="#meeting">MEETING</a>
+      <a href="#photo">PHOTO</a>
     </div>
   </div>
 </nav>
 
 <!-- ヒーロー -->
 <header class="hero" id="top">
-  <img class="hero-img" src="hero.jpg" alt="山口から、熱狂を。山口パッツファイブ 2026-27">
-  <div class="hero-caption">
-    <div class="wrap">
-      <div>
-        <div class="hero-label">2026-27 SEASON</div>
-        <h1>STAFF PORTAL</h1>
-      </div>
-      <p>試合日程・スケジュール・共有資料・依頼フォームへの入口</p>
+  <div class="hero-bgtext">PATSFIVE</div>
+  <div class="wrap">
+    <div>
+      <div class="hero-label">2026-27 SEASON</div>
+      <h1>STAFF PORTAL<span>山口パッツファイブ</span></h1>
+      <p>スケジュール・マニュアル・会議資料・写真素材への入口。<br>チームの仕事はここから始めましょう。</p>
     </div>
+    <div class="hero-logo"><img src="patsfive.png" alt=""></div>
   </div>
 </header>
 
@@ -231,7 +256,30 @@
 
 <main>
 
-  <!-- 01 試合・スケジュール -->
+  <!-- 00 公式サイト・依頼フォーム -->
+  <section class="block" id="official">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-num">00</div>
+        <div><span class="sec-en">OFFICIAL &amp; REQUEST</span><h2>公式サイト・依頼フォーム</h2></div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://patsfive.com/" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg></div>
+          <strong>公式サイト</strong><span>patsfive.com</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+        <a class="card" href="https://docs.google.com/forms/d/e/1FAIpQLSeRhQ9DbS1T_UoiF1B05-OaIRCKKvT2cjbTvmq3Grwr9jQWBw/viewform" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div>
+          <strong>依頼フォーム</strong><span>各種依頼の受付</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 スケジュール -->
   <section class="block" id="schedule">
     <div class="wrap">
       <div class="sec-head">
@@ -259,56 +307,94 @@
     </div>
   </section>
 
-  <!-- 02 資料・ドライブ -->
-  <section class="block" id="documents">
+  <!-- 02 マニュアル・ガイドライン -->
+  <section class="block" id="manual">
     <div class="wrap">
       <div class="sec-head">
         <div class="sec-num">02</div>
-        <div><span class="sec-en">DOCUMENTS</span><h2>資料・ドライブ</h2></div>
+        <div><span class="sec-en">MANUAL &amp; GUIDELINE</span><h2>マニュアル・ガイドライン</h2></div>
         <div class="sec-line"></div>
       </div>
       <div class="grid">
-        <a class="card" href="https://drive.google.com/drive/u/0/my-drive?lfhs=2" target="_blank" rel="noopener">
-          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
-          <strong>マイドライブ</strong><span>Googleドライブ</span>
+        <a class="card" href="https://drive.google.com/file/d/187CWPpBKzTi3y1-2MDqXkESGksHUst53/view?usp=sharing" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M4 17a2 2 0 0 1 2-2h12M8 7h6"/></svg></div>
+          <strong>運営マニュアル</strong><span>試合運営の手順</span>
           <div class="card-foot">OPEN<i>→</i></div>
         </a>
-        <a class="card" href="https://drive.google.com/drive/folders/18ZChyOoHNUW32SLbyPaKQOnm0-LxNEAa" target="_blank" rel="noopener">
-          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 13h6"/></svg></div>
-          <strong>Bリーグ</strong><span>Bリーグ共有ドライブ</span>
+        <a class="card" href="https://drive.google.com/file/d/11nthtHPdVf7EaGYlv2SS6BHgWaLzI59H/view?usp=sharing" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h6M7 14h10"/></svg></div>
+          <strong>広告ガイド</strong><span>広告掲出のルール</span>
           <div class="card-foot">OPEN<i>→</i></div>
         </a>
-        <a class="card" href="https://docs.google.com/spreadsheets/d/18w4r3ikj_9FUxrVKI7npbghrcm2SKcp0_Puts-WFFio/edit?gid=1981715065#gid=1981715065" target="_blank" rel="noopener">
-          <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></div>
-          <strong>興行・運営索引</strong><span>Bリーグ資料の探し方一覧</span>
+        <a class="card" href="https://drive.google.com/file/d/1y_yd1Yb4kagNVhcPN6JTkUQjTAPL0N0s/view?usp=sharing" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 10v4h3l6 4V6L6 10z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg></div>
+          <strong>広報ガイド</strong><span>広報・発信のルール</span>
           <div class="card-foot">OPEN<i>→</i></div>
         </a>
-        <a class="card" href="https://photos.google.com/share/AF1QipNLvEQ3O-kc1S3F2AIS4w5ol773y0P-5dCOmlZK1laoKrgtArvvf-uwlOVVZmzUIQ?key=bjdvcmNmYzFCYlQ2dk43NkhCVWhGYVVucFNYd1V3" target="_blank" rel="noopener">
-          <div class="card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></div>
-          <strong>選手宣材写真</strong><span>Googleフォト共有アルバム</span>
+        <a class="card" href="https://drive.google.com/file/d/1iSb4d4062lXinjqhTaMzqs0mXZa8aQSz/view?usp=sharing" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.9.2 5 2.5 5 5.3"/></svg></div>
+          <strong>入場者報告ガイド</strong><span>入場者数の報告方法</span>
           <div class="card-foot">OPEN<i>→</i></div>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- 03 依頼・公式 -->
-  <section class="block" id="request">
+  <!-- 03 担当者会資料フォルダ -->
+  <section class="block" id="meeting">
     <div class="wrap">
       <div class="sec-head">
         <div class="sec-num">03</div>
-        <div><span class="sec-en">REQUEST &amp; OFFICIAL</span><h2>依頼・公式</h2></div>
+        <div><span class="sec-en">MEETING FOLDERS</span><h2>担当者会資料フォルダ</h2></div>
         <div class="sec-line"></div>
       </div>
       <div class="grid">
-        <a class="card" href="https://docs.google.com/forms/d/e/1FAIpQLSeRhQ9DbS1T_UoiF1B05-OaIRCKKvT2cjbTvmq3Grwr9jQWBw/viewform" target="_blank" rel="noopener">
-          <div class="card-icon"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div>
-          <strong>依頼フォーム</strong><span>各種依頼の受付</span>
+        <a class="card" href="https://drive.google.com/drive/folders/1AZwvT3W-Roe5lf8MXH-DAJpVou4rl9nF?usp=drive_link" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <strong>運営</strong><span>運営担当者会議</span>
           <div class="card-foot">OPEN<i>→</i></div>
         </a>
-        <a class="card" href="https://patsfive.com/" target="_blank" rel="noopener">
-          <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg></div>
-          <strong>公式サイト</strong><span>patsfive.com</span>
+        <a class="card" href="https://drive.google.com/drive/folders/1dcQd4lBrmDgak4p5_I1KLwsH2W1bMwPX?usp=drive_link" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <strong>広報</strong><span>広報担当者会議</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+        <a class="card" href="https://drive.google.com/drive/folders/193Ip4YuH-MzoAG48wh0rTNNE0ymuaNR-?usp=drive_link" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <strong>営業</strong><span>営業担当者会議</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+        <a class="card" href="https://drive.google.com/drive/folders/14edCV4pGUwcc83MFG9CJulNFhCaUhKKZ?usp=sharing" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <strong>集客</strong><span>集客担当者会議</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+        <a class="card" href="https://drive.google.com/drive/folders/1qjtq_b5WS2pGa-MKoK9Ihr8vPAivAXlv?usp=drive_link" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <strong>バスケットLIVE</strong><span>バスケットLIVE担当者会議</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 写真・画像 -->
+  <section class="block" id="photo">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-num">04</div>
+        <div><span class="sec-en">PHOTO &amp; GRAPHIC</span><h2>写真・画像</h2></div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://photos.google.com/share/AF1QipNLvEQ3O-kc1S3F2AIS4w5ol773y0P-5dCOmlZK1laoKrgtArvvf-uwlOVVZmzUIQ?key=bjdvcmNmYzFCYlQ2dk43NkhCVWhGYVVucFNYd1V3" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></div>
+          <strong>選手宣材写真</strong><span>Googleフォト共有アルバム</span>
+          <div class="card-foot">OPEN<i>→</i></div>
+        </a>
+        <a class="card" href="https://drive.google.com/drive/folders/1rbCR4ajJ1SVB26rfMl_6-geFShuaVT6z?usp=drive_link" target="_blank" rel="noopener">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 17l2.5-3 2 2 1.5-2 2 3z"/></svg></div>
+          <strong>ロゴ・ポスター・MDP・チラシ等</strong><span>デザインデータ</span>
           <div class="card-foot">OPEN<i>→</i></div>
         </a>
       </div>
