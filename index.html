@@ -144,6 +144,43 @@
     .sec-line { flex: 1; height: 1px; background: var(--line); margin-bottom: 8px; }
     .bleague-badge { height: 30px; width: auto; margin-bottom: 6px; opacity: .85; }
 
+    /* ===== 事例収集（投稿呼びかけ） ===== */
+    .collect {
+      display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 28px;
+      background: #FFFFFF; border: 2px dashed rgba(233,96,3,.45); border-radius: 8px;
+      padding: 30px 34px;
+      transition: transform .25s, box-shadow .3s, border-color .3s;
+    }
+    .collect:hover {
+      transform: translateY(-3px); border-color: var(--accent); border-style: solid;
+      box-shadow: 0 18px 40px rgba(0,0,0,.08), 0 0 0 1px rgba(233,96,3,.2), 0 0 22px rgba(233,96,3,.16);
+    }
+    .collect:active {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0,0,0,.06), 0 0 0 2px rgba(233,96,3,.4), 0 0 30px rgba(233,96,3,.24);
+      transition: transform .08s, box-shadow .08s;
+    }
+    .collect-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--bg-sub); display: flex; align-items: center; justify-content: center; transition: background .25s; }
+    .collect-icon svg { width: 32px; height: 32px; stroke: var(--head); transition: stroke .25s; }
+    .collect:hover .collect-icon { background: var(--accent); }
+    .collect:hover .collect-icon svg { stroke: #FFFFFF; }
+    .collect-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 700; letter-spacing: .06em;
+      color: #FFFFFF; background: var(--accent); border-radius: 999px; padding: 4px 12px;
+    }
+    .collect strong { display: block; font-size: 22px; color: var(--ink); margin: 8px 0 4px; }
+    .collect p { font-size: 14px; color: var(--text); line-height: 1.7; }
+    .collect-go {
+      display: inline-flex; align-items: center; gap: 10px; white-space: nowrap;
+      font-size: 13px; font-weight: 700; letter-spacing: .06em;
+      padding: 13px 22px; border-radius: 999px; background: var(--head); color: #FFFFFF;
+      transition: background .25s;
+    }
+    .collect-go i { font-style: normal; transition: transform .25s; }
+    .collect:hover .collect-go { background: var(--ink); }
+    .collect:hover .collect-go i { transform: translateX(4px); }
+
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
     .card {
       position: relative; display: flex; flex-direction: column;
@@ -217,6 +254,12 @@
       .feature-icon { width: 46px; height: 46px; }
       .feature strong { font-size: 18px; }
       .feature-go { grid-column: 1 / -1; justify-content: center; }
+      .collect { grid-template-columns: auto 1fr; padding: 22px 18px; gap: 14px; }
+      .collect-icon { width: 48px; height: 48px; }
+      .collect-icon svg { width: 24px; height: 24px; }
+      .collect strong { font-size: 18px; }
+      .collect p { font-size: 13px; }
+      .collect-go { grid-column: 1 / -1; justify-content: center; }
       section.block { padding-top: 52px; }
       .sec-num { font-size: 36px; }
       .sec-head h2 { font-size: 19px; }
@@ -239,6 +282,7 @@
       <a href="#manual">MANUAL</a>
       <a href="#meeting">MEETING</a>
       <a href="#photo">PHOTO</a>
+      <a href="#case">CASE</a>
     </div>
   </div>
 </nav>
@@ -422,6 +466,26 @@
           <div class="card-foot">OPEN<i>→</i></div>
         </a>
       </div>
+    </div>
+  </section>
+
+  <!-- 05 事例収集 -->
+  <section class="block" id="case">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-num">05</div>
+        <div><span class="sec-en">CASE STUDY</span><h2>事例収集</h2></div>
+        <div class="sec-line"></div>
+      </div>
+      <a class="collect" href="https://drive.google.com/drive/folders/1kT6C63Lmy_QKcvFVWgXpN2fuVs5gD_Og?usp=drive_link" target="_blank" rel="noopener">
+        <div class="collect-icon"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13h6"/></svg></div>
+        <div>
+          <span class="collect-badge">＋ 誰でも資料を追加できます</span>
+          <strong>事例収集フォルダ</strong>
+          <p>他クラブの取り組み・イベント・グッズなど、参考になる事例を見つけたら<br>このフォルダに資料や写真をどんどん追加してください。</p>
+        </div>
+        <span class="collect-go">フォルダを開いて追加 <i>→</i></span>
+      </a>
     </div>
   </section>
 
